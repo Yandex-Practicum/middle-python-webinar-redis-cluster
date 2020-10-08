@@ -1,7 +1,7 @@
 import base64
 import hashlib
 import json
-
+import typing as t
 from dataclasses import dataclass
 
 import yarl
@@ -72,11 +72,11 @@ class UrlRepository:
         return hash_str[:length]
 
 
-def init_repository(redis_dsn: str, main_service_url: str):
+def init_repository(redis_dsns: t.List[str], main_service_url: str):
     return UrlRepository(
-        RedisClient(redis_dsn),
+        RedisClient(redis_dsns),
         main_service_url,
     )
 
 
-url_repository = init_repository(str(config.REDIS_DSN), config.MAIN_SERVICE_URL)
+url_repository = init_repository(config.REDIS_DSNS, config.MAIN_SERVICE_URL)

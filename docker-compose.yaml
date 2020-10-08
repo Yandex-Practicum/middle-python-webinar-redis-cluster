@@ -8,13 +8,19 @@ services:
     networks:
       - storage
 
+  redis2:
+    image: redis:alpine
+    ports:
+      - "6379"
+    networks:
+      - storage
+
   url_shorter:
     build: .
     ports:
       - "8080:8080"
     environment:
-      REDIS_PORT: "6379"
-      REDIS_HOST: "redis"
+      REDIS_DSNS: "redis://redis:6379, redis://redis2:6379"
       SERVICE_URL: "http://0.0.0.0:8080"
       SERVICE_PORT: "8080"
     networks:
